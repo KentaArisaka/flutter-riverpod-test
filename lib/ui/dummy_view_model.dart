@@ -13,7 +13,7 @@ class DummyState {
   final String message;
 }
 
-class DummyViewModel extends AutoDisposeNotifier<DummyState> {
+class DummyViewModel extends Notifier<DummyState> {
   @override
   DummyState build() => const DummyState();
 

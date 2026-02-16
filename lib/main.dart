@@ -1,73 +1,18 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_riverpod_test/provider.dart';
-import 'package:flutter_riverpod_test/repository/repository.dart';
 import 'package:flutter_riverpod_test/ui/dummy_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final container = ProviderContainer();
-  final result = await container.read(repositoryProvider).fetch();
-  final message = await container.read(hogeProvider.future);
-
-  if (kDebugMode) {
-    print(message);
-  }
-
-  runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: MyApp(id: result.id, username: result.username),
-    ),
-  );
+void main() {
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({required this.id, required this.username, super.key});
-
-  final int id;
-  final String username;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Builder(
-        builder: (context) {
-          return Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('ID: $id'),
-                    Text('Username: $username'),
-
-                    const SizedBox(height: 16),
-
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DummyPage(),
-                            ),
-                          );
-                        },
-                        child: const Text('Go to DummyPage'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    return const MaterialApp(home: DummyPage());
   }
 }
